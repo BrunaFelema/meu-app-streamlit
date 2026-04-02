@@ -1,5 +1,4 @@
 import streamlit as st
-import urllib.parse
 import requests
 
 st.title("Enviar para Google Sheets 🚀")
@@ -7,12 +6,15 @@ st.title("Enviar para Google Sheets 🚀")
 mensagem = st.text_input("Digite uma mensagem:")
 
 if st.button("Enviar"):
-    url_base = "https://docs.google.com/forms/d/e/1FAIpQLSdwYdIOIYzZPJRQLspIA_rqx-C4XvhasGVaDksuuaGn--QLuQ/formResponse?entry.377580072="
+    url = "https://docs.google.com/forms/d/e/1FAIpQLSdwYdIOIYzZPJRQLspIA_rqx-C4XvhasGVaDksuuaGn--QLuQ/formResponse"
 
-    mensagem_codificada = urllib.parse.quote(mensagem)
+    dados = {
+        "entry.377580072": mensagem
+    }
 
-    url_final = url_base + mensagem_codificada
+    resposta = requests.post(url, data=dados)
 
-    requests.post(url_final)
-
-    st.success("Enviado com sucesso!")
+    if resposta.status_code == 200:
+        st.success("Enviado com sucesso!")
+    else:
+        st.error("Erro ao enviar!")
