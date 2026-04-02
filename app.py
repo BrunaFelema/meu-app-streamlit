@@ -1,6 +1,6 @@
 import streamlit as st
 import urllib.parse
-import urllib.request
+import requests
 
 st.title("Enviar para Google Sheets 🚀")
 
@@ -13,6 +13,6 @@ if st.button("Enviar"):
 
     url_final = url_base + mensagem_codificada
 
-    urllib.request.urlopen(url_final)
+    requests.post(url_final)
 
     st.success("Enviado com sucesso!")
