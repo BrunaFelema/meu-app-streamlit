@@ -1,7 +1,6 @@
 import streamlit as st
 import urllib.parse
 import urllib.request
-import json
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
@@ -18,18 +17,20 @@ if st.button("Enviar"):
 
     # ================= GOOGLE DRIVE =================
     creds_dict = st.secrets["gcp_service_account"]
-    creds = service_account.Credentials.from_service_account_info(creds_dict)
+
+    creds = service_account.Credentials.from_service_account_info(
+        creds_dict,
+        scopes=["https://www.googleapis.com/auth/drive"]
+    )
 
     drive_service = build("drive", "v3", credentials=creds)
-
-    file_id = ""
 
     if imagem is not None:
         file_bytes = io.BytesIO(imagem.read())
 
         file_metadata = {
             "name": imagem.name,
-            "parents": ["1kCwwzZbZ-eruwRtoAESgjbTAYoCFa5pU"]
+            "parents": ["1kCwwzZbZ-eruwRtoAESgjbTAYoCFa5pU"]  # ID da sua pasta
         }
 
         media = MediaIoBaseUpload(file_bytes, mimetype=imagem.type)
@@ -42,7 +43,7 @@ if st.button("Enviar"):
 
         file_id = file.get("id")
 
-        # deixa público
+        # deixar público
         drive_service.permissions().create(
             fileId=file_id,
             body={"role": "reader", "type": "anyone"}
@@ -54,17 +55,16 @@ if st.button("Enviar"):
         link_imagem = ""
 
     # ================= GOOGLE FORMS =================
-    url = "SEU_LINK_FORM"
+    url = "COLE_AQUI_SEU_LINK_DO_FORM"
 
     dados = {
-    "entry.1984707711": mensagem,
-    "entry.377580072": categoria,
-    "entry.1339358369": link_imagem
-
+        "entry.1984707711": mensagem,
+        "entry.377580072": categoria,
+        "entry.1339358369": link_imagem
     }
 
     url_final = url + "?" + urllib.parse.urlencode(dados)
 
     urllib.request.urlopen(url_final)
 
-    st.success("Enviado com sucesso!")
+    st.success("Enviado com sucesso! 🚀")
