@@ -36,11 +36,11 @@ if st.button("Enviar"):
         media = MediaIoBaseUpload(file_bytes, mimetype=imagem.type, resumable=True)
 
         try:
-        file = drive_service.files().create(
-        body=file_metadata,
-        media_body=media,
-        fields="id"
-        ).execute()
+            file = drive_service.files().create(
+            body=file_metadata,
+            media_body=media,
+            fields="id"
+            ).execute()
 
         except Exception as e:
             st.error(e)
