@@ -25,41 +25,39 @@ if st.button("Enviar"):
 
     drive_service = build("drive", "v3", credentials=creds)
 
+    link_imagem = ""
+
     if imagem is not None:
         file_bytes = io.BytesIO(imagem.read())
 
         file_metadata = {
-            "name": imagem.name,
-            "parents": ["1kCwwzZbZ-eruwRtoAESgjbTAYoCFa5pU"]  # ID da sua pasta
+            "name": imagem.name
         }
 
         media = MediaIoBaseUpload(file_bytes, mimetype=imagem.type, resumable=True)
 
         try:
             file = drive_service.files().create(
-            body=file_metadata,
-            media_body=media,
-            fields="id"
+                body=file_metadata,
+                media_body=media,
+                fields="id"
             ).execute()
+
+            file_id = file.get("id")
+
+            # deixar público
+            drive_service.permissions().create(
+                fileId=file_id,
+                body={"role": "reader", "type": "anyone"}
+            ).execute()
+
+            link_imagem = f"https://drive.google.com/uc?id={file_id}"
 
         except Exception as e:
             st.error(e)
 
-        file_id = file.get("id")
-
-        # deixar público
-        drive_service.permissions().create(
-            fileId=file_id,
-            body={"role": "reader", "type": "anyone"}
-        ).execute()
-
-        link_imagem = f"https://drive.google.com/uc?id={file_id}"
-
-    else:
-        link_imagem = ""
-
     # ================= GOOGLE FORMS =================
-    url = "COLE_AQUI_SEU_LINK_DO_FORM"
+    url = "https://docs.google.com/forms/d/e/1FAIpQLSdwYdIOIYzZPJRQLspIA_rqx-C4XvhasGVaDksuuaGn--QLuQ/formResponse?usp=header"
 
     dados = {
         "entry.1984707711": mensagem,
