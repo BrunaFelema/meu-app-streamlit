@@ -33,7 +33,7 @@ if st.button("Enviar"):
             "parents": ["1kCwwzZbZ-eruwRtoAESgjbTAYoCFa5pU"]  # ID da sua pasta
         }
 
-        media = MediaIoBaseUpload(file_bytes, mimetype=imagem.type)
+        media = MediaIoBaseUpload(file_bytes, mimetype=imagem.type, resumable=True)
 
         file = drive_service.files().create(
             body=file_metadata,
