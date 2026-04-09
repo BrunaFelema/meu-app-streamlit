@@ -20,7 +20,7 @@ if st.button("Enviar"):
 
     creds = service_account.Credentials.from_service_account_info(
         creds_dict,
-        scopes=["https://www.googleapis.com/auth/drive"]
+        scopes=["https://www.googleapis.com/auth/drive.file"]
     )
 
     drive_service = build("drive", "v3", credentials=creds)
