@@ -9,7 +9,7 @@ import io
 st.title("Cadastro 🚀")
 
 # ID DA PASTA DO SEU GMAIL PESSOAL
-ID_DA_SUA_PASTA = "11nXd6Jb49x5P6A2W_RbKhB05DQSl7emT" 
+ID_DA_SUA_PASTA = "1kCwwzZbZ-eruwRtoAESgjbTAYoCFa5pU?hl" 
 URL_FORM = "https://docs.google.com/forms/d/e/1FAIpQLSdwYdIOIYzZPJRQLspIA_rqx-C4XvhasGVaDksuuaGn--QLuQ/formResponse"
 
 mensagem = st.text_input("Digite uma mensagem:")
