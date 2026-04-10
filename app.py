@@ -20,7 +20,7 @@ if st.button("Enviar"):
 
     creds = service_account.Credentials.from_service_account_info(
         creds_dict,
-        scopes=["https://www.googleapis.com/auth/drive.file"]
+        scopes=["https://www.googleapis.com/auth/drive"]
     )
 
     drive_service = build("drive", "v3", credentials=creds)
@@ -31,7 +31,8 @@ if st.button("Enviar"):
         file_bytes = io.BytesIO(imagem.read())
 
         file_metadata = {
-            "name": imagem.name
+            "name": imagem.name,
+            "parents": ["1kCwwzZbZ-eruwRtoAESgjbTAYoCFa5pU"]  # sua pasta
         }
 
         media = MediaIoBaseUpload(file_bytes, mimetype=imagem.type, resumable=True)
@@ -45,7 +46,7 @@ if st.button("Enviar"):
 
             file_id = file.get("id")
 
-            # deixar público
+            # tornar público
             drive_service.permissions().create(
                 fileId=file_id,
                 body={"role": "reader", "type": "anyone"}
@@ -57,16 +58,18 @@ if st.button("Enviar"):
             st.error(e)
 
     # ================= GOOGLE FORMS =================
-    url = "https://docs.google.com/forms/d/e/1FAIpQLSdwYdIOIYzZPJRQLspIA_rqx-C4XvhasGVaDksuuaGn--QLuQ/formResponse?usp=header"
+    url = "https://docs.google.com/forms/d/e/1FAIpQLSdwYdIOIYzZPJRQLspIA_rqx-C4XvhasGVaDksuuaGn--QLuQ/formResponse"
 
     dados = {
-        "entry.1984707711": mensagem,
-        "entry.377580072": categoria,
+        "entry.1984707711": categoria,   # corrigido
+        "entry.377580072": mensagem,    # corrigido
         "entry.1339358369": link_imagem
     }
 
-    url_final = url + "?" + urllib.parse.urlencode(dados)
+    try:
+        url_final = url + "?" + urllib.parse.urlencode(dados)
+        urllib.request.urlopen(url_final)
+        st.success("Enviado com sucesso! 🚀")
 
-    urllib.request.urlopen(url_final)
-
-    st.success("Enviado com sucesso! 🚀")
+    except Exception as e:
+        st.error(e)
