@@ -60,9 +60,9 @@ if st.button("Enviar"):
     url = "https://docs.google.com/forms/d/e/1FAIpQLSdwYdIOIYzZPJRQLspIA_rqx-C4XvhasGVaDksuuaGn--QLuQ/formResponse"
 
     dados = {
-    "entry.1984707711": mensagem,
-    "entry.377580072": categoria,
-    "entry.1339358369": link_imagem
+    "entry.1339358369": mensagem,
+    "entry.1984707711": categoria,
+    "entry.377580072": link_imagem
 }
 
     try:
