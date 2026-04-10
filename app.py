@@ -60,10 +60,10 @@ if st.button("Enviar"):
     url = "https://docs.google.com/forms/d/e/1FAIpQLSdwYdIOIYzZPJRQLspIA_rqx-C4XvhasGVaDksuuaGn--QLuQ/formResponse"
 
     dados = {
-        "entry.1984707711": categoria,   # corrigido
-        "entry.377580072": mensagem,    # corrigido
-        "entry.1339358369": link_imagem
-    }
+    "entry.1984707711": mensagem,
+    "entry.377580072": categoria,
+    "entry.1339358369": link_imagem
+}
 
     try:
         url_final = url + "?" + urllib.parse.urlencode(dados)
