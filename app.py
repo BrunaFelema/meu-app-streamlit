@@ -31,8 +31,7 @@ if st.button("Enviar"):
         file_bytes = io.BytesIO(imagem.read())
 
         file_metadata = {
-            "name": imagem.name,
-            "parents": ["1kCwwzZbZ-eruwRtoAESgjbTAYoCFa5pU"]  # sua pasta
+            "name": imagem.name
         }
 
         media = MediaIoBaseUpload(file_bytes, mimetype=imagem.type, resumable=True)
